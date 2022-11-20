@@ -20,6 +20,7 @@ const protect= asyncHandler(async(req,res,next)=>{
          res.status(401)
             throw new Error("Not Authorized, please Login.")   
         }
+        // @ts-ignore
         req.user=user
         next()
      } catch (error) {
