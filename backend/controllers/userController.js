@@ -1,8 +1,9 @@
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
+const Token = require("../models/tokenModel")
 const bcrypt = require('bcryptjs')
-const crypto = require("crypto");
+const crypto = require('crypto')
 // Generate Token
 const generateToken = (id) => {
   // @ts-ignore
@@ -219,17 +220,35 @@ const changePassword = asyncHandler(async (req, res) => {
 const forgotPassword = asyncHandler(async (req, res) => {
   // res.status(200)
   // res.send("Successfully forgot")
-  const {email}=req.body;
-  const user= await User.findOne({email})
-  if(!user)
-  {
+  const { email } = req.body
+  const user = await User.findOne({ email })
+  if (!user) {
     res.status(404)
-    throw new Error("User doesn't exist");
+    throw new Error("User doesn't exist")
   }
-      //Create Reset Token
-      let resetToken = crypto.randomBytes(32).toString("hex")+user._id;
-      console.log(resetToken)
-      res.send("Forgot password")
+  //Create Reset Token
+  let resetToken = crypto.randomBytes(32).toString('hex') + user._id
+  console.log(resetToken)
+  // Hash token before saving to DB
+  const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+  //Save token to DB
+  await new Token({
+    userId:user._id,
+    token: hashedToken,
+    createdAt: Date.now(),
+    expiresAt:Date.now()+30*(60*1000) //Thirty Minutes
+  }).save()
+  //construct Reset Url
+  const resetUrl =`${process.env.FRONTEND_URL}/resetpassword/${resetToken}`
+  //Reset Email
+  const message = `
+  <h2>${user.name}</h2>
+  <p>Please use the url below to reset your password</p>
+  <p>This reset link is valid for only 30 minutes.</p>
+  <a href=${resetUrl} clickingtracking=off>${resetUrl}</a>
+  <p>Regard</p>
+  `
+  res.send('Forgot password')
 })
 module.exports = {
   registerUser,
