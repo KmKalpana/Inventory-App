@@ -217,8 +217,8 @@ const changePassword = asyncHandler(async (req, res) => {
 })
 //forgot Password
 const forgotPassword = asyncHandler(async (req, res) => {
-  res.status(200)
-  res.send("Successfully forgot")
+  // res.status(200)
+  // res.send("Successfully forgot")
 })
 module.exports = {
   registerUser,
