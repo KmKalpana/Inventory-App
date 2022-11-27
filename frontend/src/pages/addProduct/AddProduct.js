@@ -21,10 +21,10 @@ const AddProduct = () => {
     const { name, value } = e.target
     setProduct({ ...product, [name]: value })
   };
-  const handleImageChange=(e)=>{
-     setProductImage(e.target.files[0]);
-     // @ts-ignore
-     setImagePreview(URL.createObjectURL(e.target.files[0]))
+const handleImageChange = (e) => {
+    setProductImage(e.target.files[0]);
+    // @ts-ignore
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
   const generateSKU=(cargegory)=>{
              const letter=category.slice(0,3).toUpperCase()
@@ -37,13 +37,13 @@ const AddProduct = () => {
     FormData.append("name",name)
     FormData.append("SKU",generateSKU(category))
     formData.append("Category",category)
-    formData.append("Quantity",category)
+    formData.append("Quantity",quantity)
     formData.append("Price",price)
     formData.append("description",description)
     formData.append("image",productImage)
     console.log(...formData);
-    await dispatch(createProduct(formData))
-    navigate("/dashboard")
+    // await dispatch(createProduct(formData))
+    // navigate("/dashboard")
   }
   return (
     <div>
