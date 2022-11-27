@@ -14,7 +14,7 @@ const initialState ={
     category:[],
 }
 //Create New Product
-const createProduct = createAsyncThunk("products/create",
+export const createProduct = createAsyncThunk("products/create",
 async(formData, thunkAPI)=>{
     try{
         return await productService.createProduct(formData)
@@ -53,5 +53,8 @@ const productSlice = createSlice({
           })
     }
 })
+
 export const {CALC_STORE_VALUE, }=productSlice.actions;
+export const selectIsLoading=(state) => state.auth.user;
+export const selectIsLoggedIn=(state) => state.auth.user;
 export default productSlice.reducer;
