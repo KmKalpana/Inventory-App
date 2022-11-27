@@ -4,6 +4,7 @@ import { RiProductHuntLine } from 'react-icons/ri'
 import heroImg from "../../assets/inv-img.png";
 import { Link } from 'react-router-dom'
 import './Home.scss'
+import { ShowOnLogin, ShowOnLogOut } from '../../components/protect/HiddenLinks';
 
 const Home = () => {
   return (
@@ -14,19 +15,25 @@ const Home = () => {
         </div>
 
         <ul className="home-links">
+        <ShowOnLogOut>
           <li>
             <Link to="/register">Register</Link>
           </li>
+         </ShowOnLogOut>
+         <ShowOnLogOut>
           <li>
             <button className="--btn --btn-primary">
               <Link to="/login">Login</Link>
             </button>
           </li>
-          <li>
+           </ShowOnLogOut>
+             <ShowOnLogin>
+               <li>
             <button className="--btn --btn-primary">
               <Link to="/dashboard">Dashboard</Link>
             </button>
           </li>
+          </ShowOnLogin>
         </ul>
       </nav>
       {/* Hero Section */}
