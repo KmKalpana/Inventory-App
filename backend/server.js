@@ -8,6 +8,7 @@ const productRoute = require('./routes/productRoute')
 const errorHandler = require('./middleWare/errorMiddleware')
 const cookieParser = require('cookie-parser')
 const path=require("path")
+const contactRoute=require("./routes/contactRoute")
 const app = express()
 
 //middleware
@@ -28,7 +29,7 @@ app.use('/api/products', productRoute)
 app.get('/', (req, res) => {
   res.send('Home Page')
 })
-
+app.use("/api/contactus", contactRoute);
 //Error Middleware 
 app.use(errorHandler)
 const PORT = process.env.PORT || 5000
