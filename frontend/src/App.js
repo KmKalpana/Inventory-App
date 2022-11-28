@@ -8,6 +8,7 @@ import Reset from './pages/auth/Reset'
 import Dashboard from './pages/dashboard/Dashboard'
 import Sidebar from './components/sidebar/Sidebar'
 import Layout from './components/layout/Layout'
+import ProductDetail from './components/Product/ProductDetail'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -51,6 +52,16 @@ function App() {
             <Sidebar>
               <Layout>
                 <AddProduct />
+              </Layout>
+            </Sidebar>
+          }
+        />
+          <Route
+          path="/product-detail/:id"
+          element={
+            <Sidebar>
+              <Layout>
+                <ProductDetail />
               </Layout>
             </Sidebar>
           }

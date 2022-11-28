@@ -3,14 +3,21 @@ import './productList.scss'
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { AiOutlineEye } from 'react-icons/ai'
 import Search from '../Search/Search'
+import { confirmAlert } from "react-confirm-alert";
+import {Link} from 'react-router-dom'
+import "react-confirm-alert/src/react-confirm-alert.css";
 import {
   selectFilteredProducts,
   FILTER_PRODUCTS,
 } from '../../redux/features/product/filterSlice'
+import {
+  deleteProduct,
+  getProducts,
+} from "../../redux/features/product/productSlice";
 import { useDispatch, useSelector } from 'react-redux'
 const ProductList = ({ products }) => {
-  const [search, setSearch] = useState('')
-  //const filteredProducts = useSelector(selectFilteredProducts)
+  const [search, setSearch] = useState("")
+  const filteredProducts = useSelector(selectFilteredProducts)
   const dispatch = useDispatch();
   const shortenText = (text, n) => {
     if (text.length > n) {
@@ -19,7 +26,29 @@ const ProductList = ({ products }) => {
     }
     return text;
   }
-
+   const delProduct = async (id) => {
+    console.log(id);
+    // @ts-ignore
+    await dispatch(deleteProduct(id));
+    // @ts-ignore
+    await dispatch(getProducts());
+  };
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Delete Product",
+      message: "Are you sure you want to delete this product.",
+      buttons: [
+        {
+          label: "Delete",
+          onClick: () => delProduct(id),
+        },
+        {
+          label: "Cancel",
+          // onClick: () => alert('Click No')
+        },
+      ],
+    });
+  };
   useEffect(() => {
     dispatch(FILTER_PRODUCTS({ products, search }))
   }, [products, search, dispatch])
@@ -34,9 +63,7 @@ const ProductList = ({ products }) => {
           <span>
             <Search
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value)
-              }}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </span>
         </div>
@@ -76,13 +103,15 @@ const ProductList = ({ products }) => {
                     </td>
                     <td className="icons">
                       <span>
-                        <AiOutlineEye size={26} color={'blue'} />
-                      </span>
+                          <Link to={`/product-detail/${_id}`}>
+                            <AiOutlineEye size={25} color={"purple"} />
+                          </Link>
+                        </span>
                       <span>
                         <FaEdit size={20} color={'green'} />
                       </span>
                       <span>
-                        <FaTrashAlt size={20} color={'red'} />
+                        <FaTrashAlt size={20} color={'red'}  onClick={() => confirmDelete(_id)}/>
                       </span>
                     </td>
                   </tr>
