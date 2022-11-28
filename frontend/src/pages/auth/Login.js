@@ -66,7 +66,7 @@ const Login = () => {
               onChange={handleInputChange} />
                <button type="submit" className='--btn --btn-primary --btn-block'>Login</button>
             </form>
-            <Link to="/forgot">Forgot Password</Link>
+            <Link to="/forgot"></Link>
              <span className={styles.register}>
             <Link to="/">Home</Link>
             <p> &nbsp; Do you have an account? &nbsp;</p>
