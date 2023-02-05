@@ -4,6 +4,7 @@ const sendEmail = require("../utils/sendEmail");
 
 const contactUs = asyncHandler(async (req, res) => {
   const { subject, message } = req.body;
+  // @ts-ignore
   const user = await User.findById(req.user._id);
 
   if (!user) {

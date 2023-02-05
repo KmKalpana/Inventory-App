@@ -1,3 +1,4 @@
+// @ts-nocheck
 const dotenv = require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
@@ -17,7 +18,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors({
-       origin:["http://localhost:3000", "https://inventory-app-kmkalpana.vercel.app/"],
+       origin:["http://localhost:3000"],
        credentials:true
 }))
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -34,9 +35,7 @@ app.use("/api/contactus", contactRoute);
 app.use(errorHandler)
 const PORT = process.env.PORT || 5000
 //connect to mongodb and start server
-mongoose
-  // @ts-ignore
-  .connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server Running on port ${PORT}`)
