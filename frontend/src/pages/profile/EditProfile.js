@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Card from "../../components/card/Card";
-import { selectUser } from "../../redux/features/auth/authSlice";
-import "./Profile.scss";
-import { toast } from "react-toastify";
-import { updateUser } from "../../services/authService";
-import ChangePassword from "../../components/changePassword/ChangePassword";
+// @ts-nocheck
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import Card from '../../components/card/Card'
+import { selectUser } from '../../redux/features/auth/authSlice'
+import './Profile.scss'
+import { toast } from 'react-toastify'
+import { updateUser } from '../../services/authService'
+import ChangePassword from '../../components/changePassword/ChangePassword'
 
 const EditProfile = () => {
-  const navigate = useNavigate();
-  const user = useSelector(selectUser);
-  const { email } = user;
+  const navigate = useNavigate()
+  const user = useSelector(selectUser)
+  const { email } = user
 
   useEffect(() => {
     if (!email) {
-      navigate("/profile");
+      navigate('/profile')
     }
-  }, [email, navigate]);
+  }, [email, navigate])
 
   const initialState = {
     name: user?.name,
@@ -25,64 +26,64 @@ const EditProfile = () => {
     phone: user?.phone,
     bio: user?.bio,
     photo: user?.photo,
-  };
-  const [profile, setProfile] = useState(initialState);
-  const [profileImage, setProfileImage] = useState("");
+  }
+  const [profile, setProfile] = useState(initialState)
+  const [profileImage, setProfileImage] = useState('')
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
-  };
+    const { name, value } = e.target
+    setProfile({ ...profile, [name]: value })
+  }
 
   const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]);
-  };
+    setProfileImage(e.target.files[0])
+  }
 
   const saveProfile = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       // Handle Image upload
-      let imageURL;
+      let imageURL
       if (
-        profileImage &&  (profileImage.type === "image/jpeg" ||
-          profileImage.type === "image/jpg" ||
-          profileImage.type === "image/png")
-      ) {
-        const image = new FormData();
-        image.append("file", profileImage);
-        image.append("cloud_name", "kalpanakathait");
-        image.append("upload_preset", "mgxgtf3b");
+        profileImage &&
+        (profileImage.type === 'image/jpeg' ||  profileImage.type === 'image/jpg' || profileImage.type === 'image/png')
+        ) 
+        {
+        const image = new FormData()
+        image.append('file', profileImage)
+        image.append('cloud_name', 'kalpanakathait')
+        image.append('upload_preset', 'mgxgtf3b')
 
         // First save image to cloudinary
         const response = await fetch(
-          "https://api.cloudinary.com/v1_1/kalpanakathait/image/upload",
-          { method: "post", body: image }
-        );
-        const imgData = await response.json();
-        imageURL = imgData.url.toString();
-
+          'https://api.cloudinary.com/v1_1/kalpanakathait/image/upload',
+          { method: 'post', body: image },
+        )
+        const imgData = await response.json()
+        imageURL = imgData.url.toString()
+       console.log(imgData)
         // Save Profile
         const formData = {
           name: profile.name,
           phone: profile.phone,
           bio: profile.bio,
           photo: profileImage ? imageURL : profile.photo,
-        };
+        }
 
-        const data = await updateUser(formData);
-        console.log(data);
-        toast.success("User updated");
-        navigate("/profile");
+        const data = await updateUser(formData)
+        console.log(data)
+        toast.success('User updated')
+        navigate('/profile')
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.log(error)
+      toast.error(error.message)
     }
-  };
+  }
 
   return (
     <div className="profile --my2">
-      <Card cardClass={"card --flex-dir-column"}>
+      <Card cardClass={'card --flex-dir-column'}>
         <span className="profile-photo">
           <img src={user?.photo} alt="profilepic" />
         </span>
@@ -127,7 +128,7 @@ const EditProfile = () => {
               <input type="file" name="image" onChange={handleImageChange} />
             </p>
             <div>
-              <button className="--btn --btn-primary" >Edit Profile</button>
+              <button className="--btn --btn-primary">Edit Profile</button>
             </div>
           </span>
         </form>
@@ -135,7 +136,7 @@ const EditProfile = () => {
       <br />
       <ChangePassword />
     </div>
-  );
-};
+  )
+}
 
-export default EditProfile;
+export default EditProfile

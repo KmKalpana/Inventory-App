@@ -47,6 +47,7 @@ const AddProduct = () => {
     formData.append("name", name);
     formData.append("sku", generateKSKU(category));
     formData.append("category", category);
+    // @ts-ignore
     formData.append("quantity", Number(quantity));
     formData.append("price", price);
     formData.append("description", description);

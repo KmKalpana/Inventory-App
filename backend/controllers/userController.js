@@ -183,6 +183,7 @@ const updateUser = asyncHandler(async (req, res) => {
       phone: updatedUser.phone,
       bio: updatedUser.bio,
     })
+  res.status(200).send('Update Profile Successfully.')
   } else {
     res.status(404)
     throw new Error('User not found')
