@@ -20,7 +20,7 @@ const contactUs = asyncHandler(async (req, res) => {
 
   const send_to = process.env.EMAIL_USER;
   const sent_from = user.email;
-  const reply_to = user.email;
+  const reply_to = process.env.EMAIL_USER;
   try {
     await sendEmail(subject, message, send_to, sent_from, reply_to);
     res.status(200).json({ success: true, message: "Email Sent" });
