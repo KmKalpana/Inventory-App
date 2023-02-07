@@ -189,6 +189,7 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found')
   }
 })
+
 //Change Password
 const changePassword = asyncHandler(async (req, res) => {
   // @ts-ignore
@@ -218,6 +219,7 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error('Old password is incorrect')
   }
 })
+
 //forgot Password
 	const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -234,7 +236,7 @@ const changePassword = asyncHandler(async (req, res) => {
     await token.deleteOne();
   }
 
-  // Create Reste Token
+  // Create Reset Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
   console.log(resetToken);
 
@@ -262,7 +264,7 @@ const changePassword = asyncHandler(async (req, res) => {
       <p>This reset link is valid for only 30minutes.</p>
       <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
       <p>Regards...</p>
-      <p>Pinvent Team</p>
+      <p>Kalpana's Team</p>
     `;
   const subject = "Password Reset Request";
   const send_to = user.email;
@@ -277,6 +279,7 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error("Email not sent, please try again");
   }
 });
+
 // Reset Password
 const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
