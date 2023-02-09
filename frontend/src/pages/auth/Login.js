@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {useState} from 'react';
 // @ts-ignore
 import styles from './auth.module.scss'
@@ -19,7 +20,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
   const { email, password } = formData;
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formData, [name]: value });

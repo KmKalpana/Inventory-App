@@ -41,8 +41,8 @@ const Home = () => {
         <div className="hero-text">
           <h2>Inventory {'&'} Stock Management Solution</h2>
           <p>
-            Inventory system to control and manage proucts in the warehouse in
-            real timeand integrated to make it easier to develop your business.
+            Inventory system to control and manage products in 
+            real time and integrated to make it easier to develop your business.
           </p>
           <div className="hero-buttons">
             <button className="--btn --btn-secondary">

@@ -1,5 +1,5 @@
+// @ts-nocheck
 import React,{useState} from "react";
-// @ts-ignore
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
