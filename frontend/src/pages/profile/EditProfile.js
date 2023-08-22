@@ -44,7 +44,7 @@ const EditProfile = () => {
 
   const saveProfile = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    //setIsLoading(true);
     try {
       // Handle Image upload
       let imageURL
@@ -65,7 +65,6 @@ const EditProfile = () => {
         )
         const imgData = await response.json()
         imageURL = imgData.url.toString()
-       console.log(imgData)
         // Save Profile
         const formData = {
           name: profile.name,
@@ -135,7 +134,9 @@ const EditProfile = () => {
               <input type="file" name="image" onChange={handleImageChange} />
             </p>
             <div>
-              <button className="--btn --btn-primary">Edit Profile</button>
+              <button className="--btn --btn-primary" on={saveProfile}>
+                Edit Profile
+              </button>
             </div>
           </span>
         </form>
