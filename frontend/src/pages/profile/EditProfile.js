@@ -44,7 +44,7 @@ const EditProfile = () => {
 
   const saveProfile = async (e) => {
     e.preventDefault();
-    //setIsLoading(true);
+    setIsLoading(true);
     try {
       // Handle Image upload
       let imageURL
