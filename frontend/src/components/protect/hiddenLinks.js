@@ -5,7 +5,7 @@ export const ShowOnLogin = ({children}) =>{
     const isLoggedIn = useSelector(selectIsLoggedIn)
     if(isLoggedIn)
     {
-          return <>{children}</>
+          return <>{children} </>
     }
     else
     return null;

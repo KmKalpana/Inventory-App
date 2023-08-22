@@ -4,7 +4,7 @@ import { RiProductHuntLine } from 'react-icons/ri'
 import heroImg from "../../assets/inv-img.png";
 import { Link } from 'react-router-dom'
 import './Home.scss'
-import { ShowOnLogin, ShowOnLogOut } from '../../components/protect/HiddenLinks';
+import { ShowOnLogin, ShowOnLogOut } from '../../components/protect/hiddenLinks';
 
 const Home = () => {
   return (
