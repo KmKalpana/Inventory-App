@@ -3,11 +3,19 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate,useParams } from 'react-router-dom';
 import ProductForm from '../../components/Product/ProductForm';
-import { getProduct, getProducts, selectProduct, updateProduct, } from '../../redux/features/product/productSlice';
+import {
+  getProduct,
+  getProducts,
+  selectProduct,
+  updateProduct,
+  selectIsLoading,
+} from "../../redux/features/product/productSlice";
+import Loader from "../../components/loader/Loader";
 const EditProduct = () => {
     const {id}=useParams();
     const dispatch=useDispatch();
     const navigate=useNavigate();
+     const isLoading = useSelector(selectIsLoading);
     const productEdit=useSelector(selectProduct)
     const [product, setProduct]=useState(productEdit)
     const [productImage, setProductImage]=useState("")
@@ -61,19 +69,20 @@ const EditProduct = () => {
     navigate("/dashboard");
   };
     return (
-        <div>
-           <h3 className="--mt">Edit Product</h3>
-      <ProductForm
-        product={product}
-        productImage={productImage}
-        imagePreview={imagePreview}
-        description={description}
-        setDescription={setDescription}
-        handleInputChange={handleInputChange}
-        handleImageChange={handleImageChange}
-        saveProduct={saveProduct}
-      />
-        </div>
+      <div>
+        {isLoading && <Loader />}
+        <h3 className="--mt">Edit Product</h3>
+        <ProductForm
+          product={product}
+          productImage={productImage}
+          imagePreview={imagePreview}
+          description={description}
+          setDescription={setDescription}
+          handleInputChange={handleInputChange}
+          handleImageChange={handleImageChange}
+          saveProduct={saveProduct}
+        />
+      </div>
     );
 }
 

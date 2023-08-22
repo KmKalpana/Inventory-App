@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './productList.scss'
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { SpinnerImg } from "../loader/Loader";
+import ReactPaginate from "react-paginate";
 import { AiOutlineEye } from 'react-icons/ai'
 import Search from '../Search/Search'
 import { confirmAlert } from "react-confirm-alert";
@@ -15,18 +17,18 @@ import {
   getProducts,
 } from "../../redux/features/product/productSlice";
 import { useDispatch, useSelector } from 'react-redux'
-const ProductList = ({ products }) => {
-  const [search, setSearch] = useState("")
-  const filteredProducts = useSelector(selectFilteredProducts)
+const ProductList = ({ products, isLoading }) => {
+  const [search, setSearch] = useState("");
+  const filteredProducts = useSelector(selectFilteredProducts);
   const dispatch = useDispatch();
   const shortenText = (text, n) => {
     if (text.length > n) {
-      const shortenText = text.substring(0, n).concat('...')
+      const shortenText = text.substring(0, n).concat("...");
       return shortenText;
     }
     return text;
-  }
-   const delProduct = async (id) => {
+  };
+  const delProduct = async (id) => {
     console.log(id);
     // @ts-ignore
     await dispatch(deleteProduct(id));
@@ -49,9 +51,28 @@ const ProductList = ({ products }) => {
       ],
     });
   };
+  //   Begin Pagination
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
+
   useEffect(() => {
-    dispatch(FILTER_PRODUCTS({ products, search }))
-  }, [products, search, dispatch])
+    const endOffset = itemOffset + itemsPerPage;
+
+    setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, filteredProducts]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % filteredProducts.length;
+    setItemOffset(newOffset);
+  };
+  //   End Pagination
+  useEffect(() => {
+    dispatch(FILTER_PRODUCTS({ products, search }));
+  }, [products, search, dispatch]);
+
   return (
     <div className="product-list">
       <hr />
@@ -67,64 +88,86 @@ const ProductList = ({ products }) => {
             />
           </span>
         </div>
-      </div>
-      <div className="table">
-        {products.length === 0 ? (
-          <p>--No Products found, Please add a Product...</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>s/n</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Value</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product, index) => {
-                const { _id, name, category, price, quantity } = product
-                return (
-                  <tr key={_id}>
-                    <td>{index + 1}</td>
-                    <td>{shortenText(name, 20)}</td>
-                    <td>{category}</td>
-                    <td>
-                      {'$'}
-                      {price}
-                    </td>
-                    <td>{quantity}</td>
-                    <td>
-                      {'$'}
-                      {price * quantity}
-                    </td>
-                    <td className="icons">
-                      <span>
+
+        {isLoading && <SpinnerImg />}
+
+        <div className="table">
+          {!isLoading && products.length === 0 ? (
+            <p>-- No product found, please add a product...</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>s/n</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Value</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {currentItems.map((product, index) => {
+                  const { _id, name, category, price, quantity } = product;
+                  return (
+                    <tr key={_id}>
+                      <td>{index + 1}</td>
+                      <td>{shortenText(name, 16)}</td>
+                      <td>{category}</td>
+                      <td>
+                        {"$"}
+                        {price}
+                      </td>
+                      <td>{quantity}</td>
+                      <td>
+                        {"$"}
+                        {price * quantity}
+                      </td>
+                      <td className="icons">
+                        <span>
                           <Link to={`/product-detail/${_id}`}>
                             <AiOutlineEye size={25} color={"purple"} />
                           </Link>
                         </span>
-                      <span>
-                         <Link to={`/edit-product/${_id}`}>
+                        <span>
+                          <Link to={`/edit-product/${_id}`}>
                             <FaEdit size={20} color={"green"} />
                           </Link>
-                      </span>
-                      <span>
-                        <FaTrashAlt size={20} color={'red'}  onClick={() => confirmDelete(_id)}/>
-                      </span>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        )}
+                        </span>
+                        <span>
+                          <FaTrashAlt
+                            size={20}
+                            color={"red"}
+                            onClick={() => confirmDelete(_id)}
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="Next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          pageCount={pageCount}
+          previousLabel="Prev"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+          activeLinkClassName="activePage"
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;

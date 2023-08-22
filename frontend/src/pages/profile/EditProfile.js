@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import Card from '../../components/card/Card'
 import { selectUser } from '../../redux/features/auth/authSlice'
 import './Profile.scss'
-import { toast } from 'react-toastify'
-import { updateUser } from '../../services/authService'
-import ChangePassword from '../../components/changePassword/ChangePassword'
+import { toast } from 'react-toastify';
+import { updateUser } from '../../services/authService';
+import ChangePassword from '../../components/changePassword/ChangePassword';
+import Loader from "../../components/loader/Loader";
 
 const EditProfile = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
+  const [isLoading, setIsLoading] = useState(false);;
   const user = useSelector(selectUser)
   const { email } = user
 
@@ -40,7 +43,8 @@ const EditProfile = () => {
   }
 
   const saveProfile = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setIsLoading(true);
     try {
       // Handle Image upload
       let imageURL
@@ -73,17 +77,20 @@ const EditProfile = () => {
         const data = await updateUser(formData)
         console.log(data)
         toast.success('User updated')
-        navigate('/profile')
+        navigate('/profile');
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error)
+      setIsLoading(false);
       toast.error(error.message)
     }
   }
 
   return (
     <div className="profile --my2">
-      <Card cardClass={'card --flex-dir-column'}>
+      {isLoading && <Loader />}
+      <Card cardClass={"card --flex-dir-column"}>
         <span className="profile-photo">
           <img src={user?.photo} alt="profilepic" />
         </span>
@@ -136,7 +143,7 @@ const EditProfile = () => {
       <br />
       <ChangePassword />
     </div>
-  )
+  );
 }
 
 export default EditProfile

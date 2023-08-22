@@ -5,9 +5,10 @@ import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
 import {Link, useNavigate} from 'react-router-dom'
 import {SET_LOGIN, SET_NAME} from '../../redux/features/auth/authSlice'
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
 import { registerUser } from "../../services/authService";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import Loader from "../../components/loader/Loader";
 const initialState={
   name:"",
   email:"",
@@ -55,6 +56,7 @@ const register=async(e)=>{
 }
   return (
     <div className={`container ${styles.auth}`}>
+      {isLoading && <Loader />}
       <Card>
         <div className={styles.form}>
           <div className="--flex-center">
@@ -62,27 +64,43 @@ const register=async(e)=>{
           </div>
           <h2>Register</h2>
           <form onSubmit={register}>
-            <input type="text" placeholder="Name" required name="name" value={name} onChange={handleInputChange}/>
-            <input type="text" placeholder="email" required name="email" value={email} onChange={handleInputChange}/>
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              name="name"
+              value={name}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              placeholder="email"
+              required
+              name="email"
+              value={email}
+              onChange={handleInputChange}
+            />
             <input
               type="password"
               placeholder="Password"
               required
               name="password"
-              value={password} onChange={handleInputChange}
+              value={password}
+              onChange={handleInputChange}
             />
-             <input
+            <input
               type="password"
               placeholder="Confirm Password"
               required
               name="confirm_password"
-              value={confirm_password} onChange={handleInputChange}
+              value={confirm_password}
+              onChange={handleInputChange}
             />
             <button type="submit" className="--btn --btn-primary --btn-block">
               Register
             </button>
           </form>
-        <span className={styles.register}>
+          <span className={styles.register}>
             <Link to="/">Home</Link>
             <p> &nbsp; Already an Account ? &nbsp;</p>
             <Link to="/login">Login</Link>
@@ -90,7 +108,7 @@ const register=async(e)=>{
         </div>
       </Card>
     </div>
-  )
+  );
 }
 
 export default Register

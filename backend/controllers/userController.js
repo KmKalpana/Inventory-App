@@ -189,7 +189,6 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found')
   }
 })
-
 //Change Password
 const changePassword = asyncHandler(async (req, res) => {
   // @ts-ignore
@@ -219,7 +218,6 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error('Old password is incorrect')
   }
 })
-
 //forgot Password
 	const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -279,7 +277,6 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error("Email not sent, please try again");
   }
 });
-
 // Reset Password
 const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;

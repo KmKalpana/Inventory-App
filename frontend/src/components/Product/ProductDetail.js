@@ -1,9 +1,11 @@
+// @ts-nocheck
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useRedirectLoggedOutUser from "../../customHook/useRedirectLoggedOutUser";
 import { selectIsLoggedIn } from "../../redux/features/auth/authSlice";
 import { getProduct } from "../../redux/features/product/productSlice";
+import { SpinnerImg } from "../loader/Loader";
 import Card from "../card/Card";
 import "./ProductDetail.scss";
 import DOMPurify from "dompurify";
@@ -34,12 +36,13 @@ const ProductDetail = () => {
     if (isError) {
       console.log(message);
     }
-  }, [isLoggedIn, isError, message, dispatch]);
+  }, [isLoggedIn, isError, message, dispatch,id]);
 
   return (
     <div className="product-detail">
       <h3 className="--mt">Product Detail</h3>
       <Card cardClass="card">
+        {isLoading && <SpinnerImg />}
         {product && (
           <div className="detail">
             <Card cardClass="group">
