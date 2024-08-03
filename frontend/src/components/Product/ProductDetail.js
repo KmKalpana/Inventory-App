@@ -6,6 +6,7 @@ import useRedirectLoggedOutUser from "../../customHook/useRedirectLoggedOutUser"
 import { selectIsLoggedIn } from "../../redux/features/auth/authSlice";
 import { getProduct } from "../../redux/features/product/productSlice";
 import { SpinnerImg } from "../loader/Loader";
+import { toast } from "react-toastify";
 import Card from "../card/Card";
 import "./ProductDetail.scss";
 import DOMPurify from "dompurify";
@@ -34,7 +35,7 @@ const ProductDetail = () => {
     }
 
     if (isError) {
-      console.log(message);
+    toast.error("Something went wrong, please try again.");
     }
   }, [isLoggedIn, isError, message, dispatch,id]);
 

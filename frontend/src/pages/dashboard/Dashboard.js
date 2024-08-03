@@ -20,7 +20,7 @@ const Dashboard = () => {
     }
 
     if (isError) {
-      console.log(message);
+      
     }
   }, [isLoggedIn, isError, message, dispatch]);
    return (

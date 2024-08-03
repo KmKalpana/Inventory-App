@@ -29,7 +29,6 @@ const ProductList = ({ products, isLoading }) => {
     return text;
   };
   const delProduct = async (id) => {
-    console.log(id);
     // @ts-ignore
     await dispatch(deleteProduct(id));
     // @ts-ignore

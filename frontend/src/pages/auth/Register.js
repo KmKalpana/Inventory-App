@@ -29,7 +29,6 @@ const Register = () => {
 }
 const register=async(e)=>{
    e.preventDefault();
-   console.log(formData);
    if(!name || !email || !password || !confirm_password)
      toast.error("All field are Required");
      if(password!==confirm_password)
@@ -51,7 +50,6 @@ const register=async(e)=>{
                  const message =
       (error.response && error.response.data && error.response.data.message) || error.message ||  error.toString();
          toast.error(message);
-         console.log(error);
      }
 }
   return (

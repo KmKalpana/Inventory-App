@@ -25,6 +25,7 @@ const ProductForm = ({
             <input
               type="file"
               name="image"
+              accept=".jpg,.jpeg,.png"
               onChange={(e) => handleImageChange(e)}
             />
             {imagePreview != null ? (
@@ -58,7 +59,11 @@ const ProductForm = ({
               placeholder="Product Price"
               name="price"
               value={product?.price}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                if (/^\d*$/.test(e.target.value)) {
+                  handleInputChange(e);
+                }
+              }}
             />
 
             <label>Product Quantity:</label>
@@ -67,7 +72,11 @@ const ProductForm = ({
               placeholder="Product Quantity"
               name="quantity"
               value={product?.quantity}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                if (/^\d*$/.test(e.target.value)) {
+                  handleInputChange(e);
+                }
+              }}
             />
             <label>Product Description:</label>
             <ReactQuill

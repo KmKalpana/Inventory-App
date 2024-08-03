@@ -236,7 +236,7 @@ const changePassword = asyncHandler(async (req, res) => {
 
   // Create Reset Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-  console.log(resetToken);
+
 
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -271,7 +271,6 @@ const changePassword = asyncHandler(async (req, res) => {
   try {
     await sendEmail(subject, message, send_to, sent_from);
     res.status(200).json({ success: true, message: "Reset Email Sent" });
-    //console.log(message)
   } catch (error) {
     res.status(500);
     throw new Error("Email not sent, please try again");

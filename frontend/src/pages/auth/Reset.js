@@ -42,7 +42,7 @@ const Reset = () => {
       toast.success(data.message);
        navigate('/login')
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
